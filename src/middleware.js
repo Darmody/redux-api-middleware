@@ -125,11 +125,10 @@ function apiMiddleware({ getState }) {
       // The request was malformed, or there was a network error
       const descriptor = await actionWith(
         {
-          ...requestType,
-          payload: new RequestError(e.message),
+          ...failureType,
           error: true
         },
-        [action, getState()]
+        [action, getState(), new RequestError(e.message)]
       );
       return next(handleDescriptor(descriptor, hooks.after));
     }
